@@ -29,7 +29,8 @@ def lambda_handler(event, context):
     if not contact_data: return
     
     channel = contact_data.get("Channel")
-    if channel != "VOICE": return
+    if channel != "VOICE": return # We need CustomerEndpoint.Address to query the orders table
+
 
     customer_endpoint = contact_data.get("CustomerEndpoint").get("Address")
     if not customer_endpoint: return

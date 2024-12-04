@@ -29,21 +29,17 @@ class Lambdas(Construct):
         boto3_later = Boto3(self, "B3")
 
         self.fulfillment = aws_lambda.Function(
-            self, "LexFullfillment", 
-            function_name="Pedido-Fulfilment", handler="lambda_function.lambda_handler",
+            self, "LexFullfillment", handler="lambda_function.lambda_handler",
              layers=[boto3_later.layer],
             code = aws_lambda.Code.from_asset("./lambdas/code/fulfillment"), **COMMON_LAMBDA_CONF)
     
 
         self.get_customer_data = aws_lambda.Function(
-            self, "GCD", 
-            function_name="Get-Customer-Data",
+            self, "GCD",
             handler="lambda_function.lambda_handler",
             code = aws_lambda.Code.from_asset("./lambdas/code/get_customer_data"), **COMMON_LAMBDA_CONF)
         
 
-        self.fulfillment.add_to_role_policy(iam.PolicyStatement(actions=['dynamodb:*'],resources=["*"]))
-        self.fulfillment.add_to_role_policy(iam.PolicyStatement(actions=['bedrock:*'],resources=["*"]))
 
-        self.get_customer_data.add_to_role_policy(iam.PolicyStatement(actions=['dynamodb:*'], resources=["*"]))
+        self.fulfillment.add_to_role_policy(iam.PolicyStatement(actions=['bedrock:*'],resources=["*"]))
 
