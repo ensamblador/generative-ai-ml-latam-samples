@@ -1,0 +1,36 @@
+                {
+                    "returnControl": {
+                        "invocationId": "09c22ff1-a732-4293-8eff-e33a12fa72e0",
+                        "invocationInputs": [
+                            {
+                                "functionInvocationInput": {
+                                    "actionGroup": "Escalation",
+                                    "actionInvocationType": "RESULT",
+                                    "function": "escalate",
+                                    "parameters": [
+                                        {
+                                            "name": "identity_document_number",
+                                            "type": "string",
+                                            "value": "10192797-1"
+                                        },
+                                        {
+                                            "name": "order_number",
+                                            "type": "string",
+                                            "value": "10026656"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "value": "Pedido robado, requiere investigación y reposición"
+                                        },
+                                        {
+                                            "name": "ticket_number",
+                                            "type": "string",
+                                            "value": "202412041906"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
