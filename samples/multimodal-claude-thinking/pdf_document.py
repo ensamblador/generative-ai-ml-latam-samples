@@ -1,4 +1,5 @@
 import io
+import requests
 from PyPDF2 import PdfReader
 from PIL import Image
 import io
@@ -7,7 +8,11 @@ class PDFDocument:
     """
     A class for reading and extracting text from PDF documents.
     """
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str,  save_path: str = None):
+        
+        if file_path.startswith("https"):
+            file_path = self.download_file(file_path, save_path)
+
         pdf_reader = PdfReader(file_path)
         pages = []
         print(f"Reading {file_path}...")
@@ -27,7 +32,6 @@ class PDFDocument:
 
     def text_content_block(self, text):
         return { "text": text }
-
 
     def get_content_blocks(self):
         content = []
@@ -51,7 +55,6 @@ class PDFDocument:
 
         return content
 
-
     def show_images(self):
 
         for page_number, page in enumerate(self.pages):
@@ -62,8 +65,6 @@ class PDFDocument:
                 print(f"Page {page_number +1}: {image_name}")
                 display(image)
     
-
-
     def get_images(self):
         
         images = []
@@ -74,3 +75,31 @@ class PDFDocument:
                 image = Image.open(io.BytesIO(image_bytes))
                 images.append(image)
         return images
+    
+
+    def download_file(self, url: str, save_path: str = None) -> bytes:
+        """
+        Download a file from a URL and optionally save it to a specified path.
+        
+        Args:
+            url (str): The URL of the file to download
+            save_path (str, optional): Path where the file should be saved. Defaults to None.
+            
+        Returns:
+            bytes: The content of the downloaded file
+        """
+        try:
+            response = requests.get(url, stream=True)
+            response.raise_for_status()  # Raise an exception for bad status codes
+            content = response.content
+            
+            if save_path:
+                with open(save_path, 'wb') as f:
+                    f.write(content)
+
+            return response.content        
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading file: {e}")
+            return b''
+    
